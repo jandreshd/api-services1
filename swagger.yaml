@@ -27,7 +27,7 @@ paths:
       - "application/json"
       parameters:
       - in: "body"
-        name: " "
+        name: "body"
         description: "objeto frase"
         required: true
         schema:
