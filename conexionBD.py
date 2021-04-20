@@ -29,8 +29,7 @@ def obtenerFraseAleatoria():
         datosFrase = db.misFrases.find_one(query)
         frase = {"id": datosFrase["id"], "frase": datosFrase["frase"]}
         if datosFrase["votos"] > 0:
-            frase += {"votos": datosFrase["votos"]}
-        print (frase)
+            frase["votos"] = datosFrase["votos"]
         return frase
     except:
         return "Error consultando la frase del dia", 404
