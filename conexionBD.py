@@ -14,7 +14,7 @@ def guardarFrase(body):
         nroFrase = db.misFrases.count_documents({})   
         datosFrase = db.misFrases.find_one({'frase': body["frase"]})
         if datosFrase is None:
-            documentoJSON = {'_id': nroFrase + 1, 'frase': body["frase"], 'votos': 0}
+            documentoJSON = {'id': nroFrase + 1, 'frase': body["frase"], 'votos': 0}
             db.misFrases.insert_one(documentoJSON)
             return "Frase Agregada"
         else:
@@ -25,7 +25,7 @@ def guardarFrase(body):
 def obtenerFraseAleatoria():
     try:
         totalFrases = db.misFrases.count_documents({})   
-        query = {'_id': random.randint(1, totalFrases)}
+        query = {'id': random.randint(1, totalFrases)}
         datosFrase = db.misFrases.find_one(query)
         print (datosFrase)
         """dic = {"frase":datosFrase["frase"]}
@@ -38,7 +38,7 @@ def obtenerFraseAleatoria():
 
 def actualizarVoto(id, cantidad):
     try:
-        query = {'_id': id}
+        query = {'id': id}
         datosFrase = db.misFrases.find_one(query)
         if datosFrase is None:
             return "Frase No Encontrada"
@@ -55,7 +55,7 @@ def actualizarVoto(id, cantidad):
 
 def eliminarFrase(id):
     try:
-        query = {'_id': id}
+        query = {'id': id}
         datosFrase = db.misFrases.find_one(query)
         if datosFrase is None:
             return "Frase No Encontrada"
