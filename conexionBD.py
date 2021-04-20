@@ -18,30 +18,25 @@ def guardarFrase(body):
             db.misFrases.insert_one(documentoJSON)
             return "Frase Agregada"
         else:
-            return "Frase ya existe"
+            return "Frase ya existe", 404
     except:
-        print("Error insertando registro en la BD")
+        return "Error insertando registro en la BD", 404
 
 def obtenerFraseAleatoria():
     try:
         totalFrases = db.misFrases.count_documents({})   
         query = {'id': random.randint(1, totalFrases)}
         datosFrase = db.misFrases.find_one(query)
-        print (datosFrase)
-        """dic = {"frase":datosFrase["frase"]}
-        if datosFrase["votos"] > 0 :
-            dic = {"frase":datosFrase["frase"], "votos": datosFrase["votos"]}
-        """
         return datosFrase
     except:
-        return "Error consultando la frase del dia"
+        return "Error consultando la frase del dia", 404
 
 def actualizarVoto(id, cantidad):
     try:
         query = {'id': id}
         datosFrase = db.misFrases.find_one(query)
         if datosFrase is None:
-            return "Frase No Encontrada"
+            return "Frase No Encontrada", 404
         else:
             datosFrase["votos"] += cantidad
             if datosFrase["votos"] > 0 :
@@ -51,16 +46,16 @@ def actualizarVoto(id, cantidad):
             db.misFrases.update_one(query, votos)
             return "Actualizacion Frase Exitosa"
     except:
-        return  "Error actualizando registro en la BD"
+        return  "Error actualizando registro en la BD", 404
 
 def eliminarFrase(id):
     try:
         query = {'id': id}
         datosFrase = db.misFrases.find_one(query)
         if datosFrase is None:
-            return "Frase No Encontrada"
+            return "Frase No Encontrada", 404
         else:
             db.misFrases.delete_one(query)
             return "Frase Eliminada"
     except:
-        return "Error eliminando registro en la BD"
+        return "Error eliminando registro en la BD", 404
